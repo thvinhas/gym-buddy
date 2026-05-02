@@ -18,6 +18,7 @@ export type Exercise = {
   name: string;
   sets: number;
   reps: number;
+  equipment?: string;
   history: WeightEntry[];
 };
 
@@ -29,10 +30,10 @@ export type Workout = {
 };
 
 const userWorkoutsCol = (userId: string) =>
-  collection(db, "Users", userId, "workouts");
+  collection(db, "users", userId, "workouts");
 
 const workoutDoc = (userId: string, workoutId: string) =>
-  doc(db, "Users", userId, "workouts", workoutId);
+  doc(db, "users", userId, "workouts", workoutId);
 
 export async function listWorkouts(userId: string): Promise<Workout[]> {
   const snap = await getDocs(userWorkoutsCol(userId));
@@ -49,11 +50,13 @@ export async function createWorkout(
   userId: string,
   data: Omit<Workout, "id">,
 ): Promise<string> {
+  console.log(userWorkoutsCol(userId).path);
   const ref = await addDoc(userWorkoutsCol(userId), {
     ...data,
     createdAt: serverTimestamp(),
   });
   return ref.id;
+  
 }
 
 export async function updateWorkout(

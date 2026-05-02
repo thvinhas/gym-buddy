@@ -6,4 +6,4 @@ function WorkoutDetailRoute() {
   return <WorkoutDetailPage workoutId={workoutId} />;
 }
 
-export const Route = createFileRoute("/workouts/$workoutId")({ component: WorkoutDetailRoute });
+export const Route = createFileRoute("/workouts/")({ component: WorkoutDetailRoute });

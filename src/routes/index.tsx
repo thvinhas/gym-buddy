@@ -4,32 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuthStore } from "@/store/authStore";
 import { useWorkoutStore } from "@/store/workoutStore";
-import { Plus, Dumbbell, Loader2, Trash2, ChevronRight } from "lucide-react";
+import { Plus, Dumbbell, Loader2, ChevronRight, Settings } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({ component: HomePage });
 
 function HomePage() {
   const user = useAuthStore((s) => s.user);
-  const { workouts, loading, fetchWorkouts, deleteWorkout } = useWorkoutStore();
+  const { workouts, loading, fetchWorkouts } = useWorkoutStore();
 
   useEffect(() => {
     if (user) fetchWorkouts(user.uid);
   }, [user, fetchWorkouts]);
 
   if (!user) return null;
-
-  const handleDelete = async (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!confirm("Excluir este treino?")) return;
-    try {
-      await deleteWorkout(user.uid, id);
-      toast.success("Treino excluído");
-    } catch (err) {
-      toast.error((err as Error).message);
-    }
-  };
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
@@ -40,12 +28,6 @@ function HomePage() {
             {workouts.length} treino{workouts.length === 1 ? "" : "s"}
           </p>
         </div>
-        <Button asChild>
-          <Link to="/workouts/new">
-            <Plus className="h-4 w-4" />
-            Criar treino
-          </Link>
-        </Button>
       </div>
 
       {loading ? (
@@ -83,13 +65,6 @@ function HomePage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={(e) => handleDelete(w.id, e)}
-                    >
-                      <Trash2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
                     <ChevronRight className="h-5 w-5 text-muted-foreground" />
                   </div>
                 </CardHeader>
