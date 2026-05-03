@@ -1,0 +1,1 @@
+import{i as t,j as r}from"./index-3FVrhjUW.js";import{W as i}from"./WorkoutDetailPage-7zV6LvRr.js";import"./workouts-CqA6DN6d.js";import"./input-mIUhg1QZ.js";import"./card-DkQRU5tF.js";import"./arrow-left-Cm6MXOch.js";function n(){const{workoutId:o}=t.useParams();return r.jsx(i,{workoutId:o})}export{n as component};
